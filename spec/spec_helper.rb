@@ -4,9 +4,8 @@ require 'sinatra'
 require "sinatra/base"
 require 'rack/test'
 require "rubygems"
-require "test/unit"
+#require "test/unit"
 require "rspec"
-require "fakeweb"
 
 RSpec.configure do |config|
   config.color = true
