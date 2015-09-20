@@ -1,10 +1,11 @@
-title View
+title = @seo_body.title
 
 div.container
   /div.row
-  h1 = @seo_body.title
-  h2 = @seo_body.url 
-  h3 = @seo_body.date
+  h1 Report for: #{ @seo_body.title }
+  h2 = @seo_body.url  
+  h3 = @seo_body.date 
+  h4 IP: #{ @seo_body.ip }
     
   h1 Headers
   table.table

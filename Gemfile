@@ -14,4 +14,6 @@ group :test, :development do
   gem 'thin'
   gem 'rest-open-uri', '~> 1.0.0'
   gem 'json', '~> 1.8.3'
+  gem 'rubysl-resolv', '~> 2.1.2'
+  gem 'public_suffix', '~> 1.5.1'
 end

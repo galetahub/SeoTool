@@ -3,6 +3,7 @@ require 'open-uri'
 require 'date'
 require 'httparty'
 require 'slim'
+require 'public_suffix'
 
 require_relative 'seo_body'
 require_relative 'link'
@@ -42,7 +43,9 @@ module SeoToolApp
       _date = get_date
       _headers = get_headers(@url)
       _links = get_links(doc)
-      @seo_body = SeoBody.new(_title, _url, _date, _headers, _links)
+      _ip = get_ip(@url)
+
+      @seo_body = SeoBody.new(_title, _url, _date, _headers, _links, _ip)
     end
 
     def get_title(doc)
@@ -68,6 +71,12 @@ module SeoToolApp
         _counter += 1
       end
       _links_list
+    end
+
+    def get_ip(url)
+      uri = URI.parse(url)
+      domain = PublicSuffix.parse(uri.host)
+      Resolv.getaddress(domain.to_s)
     end
 
     def save_to_html

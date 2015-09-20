@@ -17,16 +17,16 @@ module SeoToolApp
     end
 
     post '/show' do
-      begin
+      #begin
         response = HTTParty.get(params[:url])
         if response.success?
           @seo = SeoTool.new(params)
           @seo_body = @seo.analize
           slim :report_template
         end
-      rescue
-        redirect "/error"
-      end
+      #rescue
+      #  redirect "/error"
+      #end
     end
 
     get '/report/:filename' do

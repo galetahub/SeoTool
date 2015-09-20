@@ -1,13 +1,14 @@
 module SeoToolApp
   class SeoBody
-    attr_accessor :title, :url, :date, :headers, :links
+    attr_accessor :title, :url, :date, :headers, :links, :ip
 
-    def initialize(title, url, date, headers, links)
+    def initialize(title, url, date, headers, links, ip)
       @title = title
       @url = url
       @date = date
       @headers = headers
       @links = links
+      @ip = ip
     end
 
   end
