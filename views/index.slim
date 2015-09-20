@@ -1,0 +1,26 @@
+title SEO Tool
+
+div.container
+  div.row.add-margins
+    div.col-md-3
+    div.col-md-6
+      form.form-horizontal id="urlForm" action="/show" method="post"
+        div.col-xs-9
+          input.form-control name="url" placeholder="site url"
+        div.col-xs-3
+          button.btn.btn-primary.btn-block Perform
+    div.col-md-3
+  div.row
+    div.col-md-12
+      table.table
+        thead
+          th Site URL
+          th Created at
+          th Actions
+        - @site_list.each do |item|
+          tr
+            td = item.link
+            td = item.date
+            td 
+              a href="#{ item.relative_link }" View
+          

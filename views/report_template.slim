@@ -1,0 +1,36 @@
+title View
+
+div.container
+  /div.row
+  h1 = @seo_body.title
+  h2 = @seo_body.url 
+  h3 = @seo_body.date
+    
+  h1 Headers
+  table.table
+    thead
+      th Key
+      th Value
+    - @seo_body.headers.each do |k, v|
+      tr
+        td = k
+        td = v
+
+  h1 Links
+  table.table
+    thead
+      th #
+      th Title
+      th href
+      th rel
+      th target
+      th download
+    - @seo_body.links.each do |link|
+      tr
+        td = link.number
+        td = link.title
+        td = link.href
+        td = link.rel
+        td = link.target
+        td = link.download
+    
