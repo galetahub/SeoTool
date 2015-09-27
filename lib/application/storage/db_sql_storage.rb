@@ -33,12 +33,14 @@ module Storage
             (url, key, value) VALUES($1, $2, $3)", params)
         end
 
+        counter = 1
         report.links.each do |link|
-          params = [report.url, link.title, link.href, link.rel,
+          params = [counter, report.url, link.title, link.href, link.rel,
             link.target, link.download]
           con.exec_params("INSERT INTO links
-            (url, title, href, rel, target, download)
-            VALUES($1, $2, $3, $4, $5, $6)", params)
+            (number, url, title, href, rel, target, download)
+            VALUES($1, $2, $3, $4, $5, $6, $7)", params)
+          counter += 1
         end
 
       rescue PG::Error => e
@@ -55,30 +57,33 @@ module Storage
           :user => @config['username'],
           :password => @config['password']
 
-        result = con.exec_params("SELECT * FROM reports WHERE id = $1", id)
+        params = [id]
+        result = con.exec_params("SELECT * FROM reports WHERE id = $1", params)
 
-        report.title = result['title']
-        report.url = result['url']
-        report.ip = result['ip'].to_s
-        report.date = result['created_at']
+        report.url = result.getvalue(0, 1)
+        report.title = result.getvalue(0, 2)
+        report.ip = result.getvalue(0, 3)
+        report.date = result.getvalue(0, 4)
 
+        params = [report.url]
         result = con.exec_params("SELECT * FROM headers
-          WHERE url = $1", report.url)
+          WHERE url = $1", params)
 
         hash = Hash.new
         result.each do |row|
-          hash[row.key] = row.value
+          key = row['key']
+          value = row['value']
+          hash[key] = value
         end
         report.headers = hash
 
         result = con.exec_params("SELECT * FROM links
-        2  WHERE url = $1", report.url)
-        report.links = result
+          WHERE url = $1", params)
 
         list = Array.new
         result.each do |row|
-          link = Link.new(row.number, row.title, row.href, row.rel,
-          row.target, row.download)
+          link = Link.new(row['number'], row['title'], row['href'], row['rel'],
+          row['target'], row['download'])
           list << link
         end
 
@@ -94,16 +99,16 @@ module Storage
     end
 
     def all
-      begin        
+      begin
         con = PG.connect :dbname => @config['db_name'],
           :user => @config['username'],
           :password => @config['password']
 
         list = Array.new
-        result = con.exec_params("SELECT * FROM reports")
+        result = con.exec("SELECT * FROM reports")
         result.each do |row|
           list << SiteListItem.new(row['url'], row['created_at'],
-            row['id'])
+            "/report/" + row['id'])
         end
         list
       rescue PG::Error => e

@@ -39,8 +39,12 @@ module SeoTools
     get '/report/:id' do
       id = params[:id]
       sp = StorageProvider.new
-      report = sp.find(id)
-      send_file report
+      @report = sp.find(id)
+      if @report.is_a(Report)
+        slim :report_template
+      else
+        send_file @report
+      end
     end
 
     get '/error' do

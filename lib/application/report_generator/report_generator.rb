@@ -42,7 +42,15 @@ module SeoTools
       _links = get_links(_doc)
       _ip = get_ip(@url)
 
-      @report = Report.new(_title, _url, _date, _headers, _links, _ip)
+      @report = Report.new
+      @report.title = _title
+      @report.url = _url
+      @report.date = _date
+      @report.headers = _headers
+      @report.links = _links
+      @report.ip = _ip
+
+      @report
     end
 
     def get_title(doc)
