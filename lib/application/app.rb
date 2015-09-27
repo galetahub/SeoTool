@@ -1,18 +1,23 @@
 require "sinatra/base"
 require 'httparty'
 
-require_relative "seo_tool"
+require_relative "report_generator/report"
+require_relative "report_generator/report_generator"
+require_relative "storage/storage_provider"
 
-module SeoToolApp
+
+module SeoTools
   class Application < Sinatra::Base
+    include Storage
     # Configuration
     set :views, File.dirname(File.expand_path('../../', __FILE__)) + '/views'
     set :public_folder, File.dirname(
       File.expand_path('../../', __FILE__)) + '/public'
 
     get '/' do
-      @seo = SeoTool.new(params)
-      @site_list = @seo.generate_site_list
+      sp = StorageProvider.new
+      @site_list = sp.all
+      puts @site_list
       slim :index
     end
 
@@ -20,19 +25,22 @@ module SeoToolApp
       #begin
         response = HTTParty.get(params[:url])
         if response.success?
-          @seo = SeoTool.new(params)
-          @seo_body = @seo.analize
+          @rg = ReportGenerator.new(params)
+          @report = @rg.generate
           slim :report_template
+        else
+          redirect "/error"
         end
       #rescue
-      #  redirect "/error"
+      #
       #end
     end
 
-    get '/report/:filename' do
-      path = File.expand_path('../../../public/reports', __FILE__)
-      page = path + '/' + params[:filename]
-      send_file page
+    get '/report/:id' do
+      id = params[:id]
+      sp = StorageProvider.new
+      report = sp.find(id)
+      send_file report
     end
 
     get '/error' do

@@ -16,4 +16,9 @@ group :test, :development do
   gem 'json', '~> 1.8.3'
   gem 'rubysl-resolv', '~> 2.1.2'
   gem 'public_suffix', '~> 1.5.1'
+
+  gem 'pg', '~> 0.18.3'
+  gem 'warden', '~> 1.2.3'
+  gem 'sequel', '~> 4.26.0'
+  gem 'geoip', '~> 1.6.1'
 end

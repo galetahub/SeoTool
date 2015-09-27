@@ -1,18 +1,18 @@
-title = @seo_body.title
+title = @report.title
 
 div.container
   /div.row
-  h1 Report for: #{ @seo_body.title }
-  h2 = @seo_body.url  
-  h3 = @seo_body.date 
-  h4 IP: #{ @seo_body.ip }
+  h1 Report for: #{ @report.title }
+  h2 = @report.url  
+  h3 = @report.date 
+  h4 IP: #{ @report.ip }
     
   h1 Headers
   table.table
     thead
       th Key
       th Value
-    - @seo_body.headers.each do |k, v|
+    - @report.headers.each do |k, v|
       tr
         td = k
         td = v
@@ -26,7 +26,7 @@ div.container
       th rel
       th target
       th download
-    - @seo_body.links.each do |link|
+    - @report.links.each do |link|
       tr
         td = link.number
         td = link.title

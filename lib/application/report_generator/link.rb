@@ -1,4 +1,4 @@
-module SeoToolApp
+module SeoTools
   class Link
     attr_accessor :number, :title, :href, :rel, :target, :download
 

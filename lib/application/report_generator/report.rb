@@ -1,5 +1,5 @@
-module SeoToolApp
-  class SeoBody
+module SeoTools
+  class Report
     attr_accessor :title, :url, :date, :headers, :links, :ip
 
     def initialize(title, url, date, headers, links, ip)

@@ -1,4 +1,4 @@
-module SeoToolApp
+module Storage
   class SiteListItem
     attr_accessor :link, :date, :relative_link
 
